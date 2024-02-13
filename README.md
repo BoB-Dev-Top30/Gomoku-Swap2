@@ -1,1 +1,1 @@
-# Gomoku-Swap2-
+# Gomoku-Swap2
