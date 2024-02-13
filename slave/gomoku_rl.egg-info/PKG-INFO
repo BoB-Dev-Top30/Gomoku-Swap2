@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: gomoku_rl
+Version: 0.0.0
+Summary: train AI agents to play Free-style Gomoku.
+Author-email: Sicheng He <hesicheng20@gmail.com>
+Project-URL: Repository, https://github.com/hesic73/gomoku_rl.git
+Keywords: RL,pytorch
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: torch
+Requires-Dist: torchrl==0.2.1
+Requires-Dist: scipy
+Requires-Dist: omegaconf
+Requires-Dist: hydra-core
+Requires-Dist: tqdm
+Requires-Dist: wandb
+Requires-Dist: matplotlib
+Provides-Extra: gui
+Requires-Dist: PyQt5; extra == "gui"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"

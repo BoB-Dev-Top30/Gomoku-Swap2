@@ -1,0 +1,14 @@
+torch
+torchrl==0.2.1
+scipy
+omegaconf
+hydra-core
+tqdm
+wandb
+matplotlib
+
+[gui]
+PyQt5
+
+[test]
+pytest
