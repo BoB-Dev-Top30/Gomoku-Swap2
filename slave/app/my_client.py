@@ -6,7 +6,6 @@
 import time
 from algo.eval_color import *
 from algo.eval_loc import *
-from algo.minimax import *
 from algo.preprocess_tensor import *
 from scripts.demo import *
 
@@ -78,10 +77,6 @@ def choose_colour():
         print("Player1의 선택 단계입니다.", p1_count)
         my_colour= eval_color(my_map)
         original_color = my_colour
-        if(original_color==1):
-            enemy_color=2
-        else:
-            enemy_color=1
         p1_count+=1
     
     ## Player2 두번째 턴(색깔바로선택)
@@ -92,11 +87,6 @@ def choose_colour():
         print("Player2의 선택 단계입니다.", p2_count)
         my_colour = eval_color(my_map)
         original_color = my_colour
-
-        if(original_color==1):
-            enemy_color=2
-        else:
-            enemy_color=1
         p2_count+=1
     
     return my_colour
@@ -130,7 +120,7 @@ def place_stone():
     ## Model 소환 (내 차례일때 둔다.)
     else:
         print("이제 돌을 둡니다.")
-        my_tensor = preprocess_tensor(my_map, before_enemy_x, before_enemy_y, original_color, enemy_color)
+        my_tensor = preprocess_tensor(my_map, before_enemy_x, before_enemy_y, my_colour)
         x, y = alpha_zero(my_tensor)
         # next_move = find_best_move(my_map, my_colour)
         print(x,y,"위치에 돌을 둡니다.")
