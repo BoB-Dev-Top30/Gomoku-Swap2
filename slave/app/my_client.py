@@ -5,7 +5,7 @@
 # Constants; Do not edit
 import time
 from algo.eval_color import *
-from slave.algo.generate_position import *
+from algo.generate_position import *
 from algo.preprocess_tensor import *
 from scripts.demo import *
 import random
@@ -31,8 +31,12 @@ before_enemy_y = 0
 
 
 # 중점이 되는 흰돌의 위치
-white_x = random.randrange(6,9)
-white_y = random.randrange(6,9)
+white_x = random.randrange(6,10)
+white_y = random.randrange(6,10)
+
+# 첫 3점을 정하는 랜덤값
+case_num = random.randrange(1,5)
+random_left_right = random.randrange(0,2)
 
 # 전략:
 # Player 1이 걸리면 밸런스 있는 3수를 두고 상대방의 선택을 어렵게 한 후, 최적의 조건칼라를 고른다.
@@ -116,29 +120,35 @@ def place_stone():
     global white_x
     global white_y
 
+    # 미리 정해둔 랜덤값
+    global case_num
+    global random_left_right
+
     print("place_stone")
     
     ## Player1 + 첫번째턴 (연속)
     if((my_colour==2) and p1_count==0):
-        x, y = generate_black_position(my_colour, p1_count, white_x, white_y)
+        print("중점이 되는 흰돌의 위치는", white_x, white_y)
+        x, y = generate_position(my_colour, p1_count, white_x, white_y, case_num, random_left_right)
         p1_count+=1
         time.sleep(1)
         return x, y
     
     ## Player1 + 두번째턴(연속)
-    elif(((my_colour==1) and (p1_count==1))):
+    elif((my_colour==1) and (p1_count==1)):
+        print("중점이 되는 흰돌의 위치는", white_x, white_y)
         print("my_colour", my_colour)
         print("count는", p1_count)
-        print("중점이 되는 흰돌의 위치는", white_x, white_y)
         p1_count+=1
         time.sleep(1)
         return white_x, white_y
     
     ## Player1 + 3번째턴(연속)
-    elif(((my_colour==2) and (p1_count==2))):
+    elif((my_colour==2) and (p1_count==2)):
+        print("중점이 되는 흰돌의 위치는", white_x, white_y)
         print("my_colour", my_colour)
         print("count는", p1_count)
-        x, y = generate_black_position(my_colour, p1_count, white_x, white_y)
+        x, y = generate_position(my_colour, p1_count, white_x, white_y , case_num, random_left_right)
         p1_count+=1
         time.sleep(1)
         return x, y
