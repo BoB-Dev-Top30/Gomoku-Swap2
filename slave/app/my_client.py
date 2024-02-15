@@ -5,9 +5,10 @@
 # Constants; Do not edit
 import time
 from algo.eval_color import *
-from algo.eval_loc import *
+from slave.algo.generate_position import *
 from algo.preprocess_tensor import *
 from scripts.demo import *
+import random
 
 NONE = 0
 WHITE = 1
@@ -27,6 +28,15 @@ p2_count=0
 
 before_enemy_x = 0
 before_enemy_y = 0
+
+
+# 중점이 되는 흰돌의 위치
+white_x = random.randrange(6,9)
+white_y = random.randrange(6,9)
+
+# 전략:
+# Player 1이 걸리면 밸런스 있는 3수를 두고 상대방의 선택을 어렵게 한 후, 최적의 조건칼라를 고른다.
+# Player 2가 걸리면 무조건 색깔을 바로 골라서 알고리즘 보다 AI 모델이 두는 수를 늘린다.
 
 def view_map():
     for y in range(15):
@@ -102,19 +112,35 @@ def place_stone():
     global before_enemy_y
     
 
+    # 미리 정해둔 white값
+    global white_x
+    global white_y
+
     print("place_stone")
     
     ## Player1 + 첫번째턴 (연속)
     if((my_colour==2) and p1_count==0):
+        x, y = generate_black_position(my_colour, p1_count, white_x, white_y)
         p1_count+=1
-        return 8, 8
+        time.sleep(1)
+        return x, y
     
-    ## Player1 + 두번째, 3번째턴 (연속)
-    elif(((my_colour==1) and (p1_count==1)) or ((my_colour==2) and (p1_count==2))):
+    ## Player1 + 두번째턴(연속)
+    elif(((my_colour==1) and (p1_count==1))):
         print("my_colour", my_colour)
         print("count는", p1_count)
-        x, y = eval_loc(my_colour, p1_count)
+        print("중점이 되는 흰돌의 위치는", white_x, white_y)
         p1_count+=1
+        time.sleep(1)
+        return white_x, white_y
+    
+    ## Player1 + 3번째턴(연속)
+    elif(((my_colour==2) and (p1_count==2))):
+        print("my_colour", my_colour)
+        print("count는", p1_count)
+        x, y = generate_black_position(my_colour, p1_count, white_x, white_y)
+        p1_count+=1
+        time.sleep(1)
         return x, y
 
     ## Model 소환 (내 차례일때 둔다.)
@@ -124,6 +150,7 @@ def place_stone():
         x, y = alpha_zero(my_tensor)
         # next_move = find_best_move(my_map, my_colour)
         print(x,y,"위치에 돌을 둡니다.")
+        time.sleep(1)
         return x, y
 
 def make_decision():
@@ -131,7 +158,6 @@ def make_decision():
 
     # 걍 고정(move 절대 안함, 모델에게 빨리넘기기 위한 전략)
     return COLOUR
-
 
 def victory():
     print("victory")
