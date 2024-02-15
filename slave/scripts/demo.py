@@ -94,7 +94,7 @@ def main(cfg:DictConfig):
     ai_x = x
     ai_y = y
 
-def alpha_zero(input_tensor):
+def gomoku_rl(input_tensor):
     global tensordict  # 전역 변수 tensordict를 사용하겠다고 선언
     global ai_x
     global ai_y
