@@ -76,11 +76,11 @@ def main(cfg:DictConfig):
 
     if(ai_color==2):
         print("흑돌에 특화된 ai를 불러옵니다.")
-        model_ckpt_path = "pretrained_models/15_15/ppo/0.pt"
+        model_ckpt_path = "Changwook's_Fine-tuned Model/black_final.pt"
     
     elif(ai_color==1):
         print("백돌에 특화된 ai를 불러옵니다.")
-        model_ckpt_path = "pretrained_models/15_15/ppo/1.pt"
+        model_ckpt_path = "Changwook's_Fine-tuned Model/white_final.pt"
 
     if model_ckpt_path:
         model = make_model(cfg)
