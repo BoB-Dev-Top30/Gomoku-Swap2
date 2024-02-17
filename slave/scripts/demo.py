@@ -22,6 +22,8 @@ num_actions = board_size * board_size
 ai_x = 0
 ai_y = 0
 
+ai_color = 0
+
 def make_model(cfg: DictConfig):
     board_size = cfg.board_size
     device = cfg.device
@@ -65,13 +67,22 @@ def main(cfg:DictConfig):
     global tensordict
     global ai_x
     global ai_y
+    global ai_color
 
     if not OmegaConf.has_resolver("eval"):
         OmegaConf.register_new_resolver("eval", eval)
     
     OmegaConf.resolve(cfg)
 
-    if model_ckpt_path := cfg.get("checkpoint", None):
+    if(ai_color==2):
+        print("흑돌에 특화된 ai를 불러옵니다.")
+        model_ckpt_path = "pretrained_models/15_15/ppo/0.pt"
+    
+    elif(ai_color==1):
+        print("백돌에 특화된 ai를 불러옵니다.")
+        model_ckpt_path = "pretrained_models/15_15/ppo/1.pt"
+
+    if model_ckpt_path:
         model = make_model(cfg)
         model.load_state_dict(torch.load(model_ckpt_path, map_location=cfg.device))
         model.eval()
@@ -94,10 +105,13 @@ def main(cfg:DictConfig):
     ai_x = x
     ai_y = y
 
-def gomoku_rl(input_tensor):
+def gomoku_rl(input_tensor, my_colour):
     global tensordict  # 전역 변수 tensordict를 사용하겠다고 선언
     global ai_x
     global ai_y
+    global ai_color
+
+    ai_color = my_colour # 내 칼라(ai) 전달받음
     tensordict = input_tensor  # 이제 전역 변수에 값을 할당
     main()  # main 함수 호출
 

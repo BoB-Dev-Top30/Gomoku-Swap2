@@ -157,7 +157,7 @@ def place_stone():
     else:
         print("이제 돌을 둡니다.")
         my_tensor = preprocess_tensor(my_map, before_enemy_x, before_enemy_y, my_colour)
-        x, y = gomoku_rl(my_tensor)
+        x, y = gomoku_rl(my_tensor, my_colour)
         # next_move = find_best_move(my_map, my_colour)
         print(x,y,"위치에 돌을 둡니다.")
         time.sleep(1)
